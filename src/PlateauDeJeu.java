@@ -81,6 +81,21 @@ public class PlateauDeJeu {
 		 
 	 }
 
+	 public void checkFullLine() {
+		 int compteur = 0;
+		 for(int i=0; i<lignes; i++){
+			 for(int j=0; j<colonnes; j++){
+				 if(TableauTetris[i][j] == "@") {
+					 compteur += 1;
+				 }
+			 }
+			 if(compteur == colonnes){
+				 for(int j=0; j<colonnes; j++){
+					 TableauTetris[i][j] = "0";
+				 }
+			 }
+		 }
+	 }
 }
 
 

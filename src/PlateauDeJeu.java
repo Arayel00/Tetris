@@ -8,9 +8,7 @@ public class PlateauDeJeu {
 	int colonnes;
 	String TableauTetris[][];
 	Point2D reference_position;
-	//ArrayList<Point2D> tetrimino_position;
-	int x_ref;
-	int y_ref;
+	ArrayList<Point2D> tetrimino_position;
 	Tetrimino tetrimino;
 	
 	public PlateauDeJeu(int p_colonne, int p_ligne){
@@ -24,10 +22,9 @@ public class PlateauDeJeu {
 			}
 		}
 		
+		tetrimino_position = new ArrayList<Point2D>();
 		tetrimino = Tetrimino.I;
-		x_ref = colonnes/2 - tetrimino.getTaille()/2;
-		y_ref = 0;
-		tetrimino.turn();
+		reference_position = new Point(colonnes/2 - tetrimino.getTaille()/2, 0);
 	}
 	
 	public String toString(){
@@ -42,48 +39,46 @@ public class PlateauDeJeu {
 	 }
 	 
 	 public void insertTetrimino(){
-		 //reference_position = new Point(colonnes/2 - tetrimino.getTaille()/2, 0);
-		 //int x = (int)reference_position.getX();
+		 int x = (int)reference_position.getX();
+		 int y = (int)reference_position.getY();
+		 tetrimino_position.clear();
 		 
-		 for(int i=x_ref; i<x_ref+tetrimino.getTaille(); i++){
-			 for(int j=y_ref; j<y_ref+tetrimino.getTaille(); j++){
-				 if(tetrimino.isBrique(j-y_ref, i-x_ref)){
-					 TableauTetris[j][i]="@";
-					 //tetrimino_position.add(new Point(j, i));
-				 }
-			 }
-		 }
-	 }
-	 
-	 public void descendTetrimino(){
-		 /*ArrayList<Point2D> next_position = new ArrayList<Point2D>();
-		 next_position.addAll(tetrimino_position);
-		 for(int i=0; i<next_position.size(); i++){
-			 Point2D temp = next_position.get(i);
-			 temp.setLocation(temp.getX(), temp.getY()+1);
-		 }*/
-		 if(this.isFree(x_ref, y_ref+1/*next_position*/)){
-			 
-			 y_ref++;
-			 insertTetrimino();
-		 }
-	 }
-	 
-	 public boolean isFree(int x, int y/*ArrayList<Point2D> position*/){
 		 for(int i=x; i<x+tetrimino.getTaille(); i++){
 			 for(int j=y; j<y+tetrimino.getTaille(); j++){
-				 if(tetrimino.isBrique(j-y, i-x) && TableauTetris[j][i]!="0"){
-					 return false;
-					 //tetrimino_position.add(new Point(j, i));
+				 if(tetrimino.isBrique(j-y, i-x)){
+					 TableauTetris[j][i]="@";
+					 tetrimino_position.add(new Point(j, i));
 				 }
 			 }
 		 }
-		 /*for(int i=0; i<position.size(); i++){
-			 if(TableauTetris[(int)position.get(i).getX()][(int)position.get(i).getY()]!="0"){
+	 }
+	 
+	 public void deplaceTetrimino(int p_x, int p_y){
+		 ArrayList<Point2D> next_position = new ArrayList<Point2D>();
+		 
+		 for(int i=0; i<next_position.size(); i++){
+			 next_position.add(new Point((int)tetrimino_position.get(i).getX()+p_x, (int)tetrimino_position.get(i).getY()+p_y));
+		 }
+		 if(this.isFreePosition(next_position)){
+			 reference_position.setLocation((int)reference_position.getX() + p_x, (int)reference_position.getY() + p_y);
+			 for(int i=0; i<tetrimino_position.size(); i++){
+				 tetrimino_position.get(i).setLocation((int)tetrimino_position.get(i).getX() + p_x, (int)tetrimino_position.get(i).getY() + p_y);
+			 }
+		 }
+	 }
+	 
+	 public boolean isFreePosition(ArrayList<Point2D> position){
+		 for(int i=0; i<position.size(); i++){
+			 Point2D p = position.get(i);
+			 if(!tetrimino_position.contains(p) && (TableauTetris[(int)p.getX()][(int)p.getY()]!="0")){
 				 return false;
 			 }
-		 }*/
+		 }
 		 return true;
+	 }
+	 
+	 public void turnTetrimino(){
+		 
 	 }
 
 }

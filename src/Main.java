@@ -11,14 +11,9 @@ public class Main {
 		aff.AffichePlateau();
 		plateau.insertTetrimino();
 		aff.AffichePlateau();
-		plateau.descendTetrimino();
+		plateau.deplaceTetrimino(0, 0);
 		aff.AffichePlateau();
-		
-		
-		ArrayList<Point2D> tetrimino_position = new ArrayList<Point2D>();
-		tetrimino_position.add(new Point(1,2));
-		tetrimino_position.add(new Point(3,2));
-		
-		System.out.println(tetrimino_position.contains(new Point(1,2)));
+		plateau.turnTetrimino();
+		aff.AffichePlateau();
 	}
 }

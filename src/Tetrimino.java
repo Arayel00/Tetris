@@ -88,12 +88,12 @@ public enum Tetrimino {
 	
 	private final boolean[][][] forme;
 	private final int taille;
-	private int current_forme;
+	private int current_orientation;
 	
 	Tetrimino(int p_taille, boolean[][][] p_forme){
 		forme = p_forme;
 		taille = p_taille;
-		current_forme = 0;
+		current_orientation = 0;
 	}
 	
 	public int getTaille(){
@@ -101,11 +101,11 @@ public enum Tetrimino {
 	}
 	
 	public int getCurrentForme(){
-		return current_forme;
+		return current_orientation;
 	}
 	
 	public boolean[][] getTetrimino(){
-		return forme[current_forme];
+		return forme[current_orientation];
 	}
 	
 	public boolean isBrique(int x, int y){
@@ -113,10 +113,10 @@ public enum Tetrimino {
 	}
 	
 	public void turn(){
-		if(current_forme == 3){
-			current_forme = 0;
+		if(current_orientation == 3){
+			current_orientation = 0;
 		}else{
-			current_forme++;
+			current_orientation++;
 		}
 	}
 }

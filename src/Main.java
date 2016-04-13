@@ -11,6 +11,7 @@ public class Main {
 		plateau.insertTetrimino();
 		aff.AffichePlateau();
 		plateau.deplaceTetrimino(0, 1);
+		//plateau.checkFullLine();
 		aff.AffichePlateau();
 		/*plateau.turnTetrimino();
 		aff.AffichePlateau();*/

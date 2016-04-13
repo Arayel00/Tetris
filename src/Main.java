@@ -8,12 +8,11 @@ public class Main {
 	public static void main(String[] args){
 		PlateauDeJeu plateau = new PlateauDeJeu(10, 5);
 		Affichage aff = new Affichage(plateau);
-		aff.AffichePlateau();
 		plateau.insertTetrimino();
 		aff.AffichePlateau();
-		plateau.deplaceTetrimino(0, 0);
+		plateau.deplaceTetrimino(0, 1);
 		aff.AffichePlateau();
-		plateau.turnTetrimino();
-		aff.AffichePlateau();
+		/*plateau.turnTetrimino();
+		aff.AffichePlateau();*/
 	}
 }

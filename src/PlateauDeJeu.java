@@ -41,29 +41,36 @@ public class PlateauDeJeu {
 	 public void insertTetrimino(){
 		 int x = (int)reference_position.getX();
 		 int y = (int)reference_position.getY();
+		 clearTetrimino();
 		 tetrimino_position.clear();
 		 
 		 for(int i=x; i<x+tetrimino.getTaille(); i++){
 			 for(int j=y; j<y+tetrimino.getTaille(); j++){
 				 if(tetrimino.isBrique(j-y, i-x)){
-					 TableauTetris[j][i]="@";
 					 tetrimino_position.add(new Point(j, i));
 				 }
 			 }
 		 }
+		 displayTetrimino();
 	 }
 	 
 	 public void deplaceTetrimino(int p_x, int p_y){
 		 ArrayList<Point2D> next_position = new ArrayList<Point2D>();
 		 
-		 for(int i=0; i<next_position.size(); i++){
+		 for(int i=0; i<tetrimino_position.size(); i++){
 			 next_position.add(new Point((int)tetrimino_position.get(i).getX()+p_x, (int)tetrimino_position.get(i).getY()+p_y));
 		 }
+		 
+		 System.out.println(tetrimino_position);
+		 System.out.println(next_position);
+		 
 		 if(this.isFreePosition(next_position)){
+			 clearTetrimino();
 			 reference_position.setLocation((int)reference_position.getX() + p_x, (int)reference_position.getY() + p_y);
 			 for(int i=0; i<tetrimino_position.size(); i++){
-				 tetrimino_position.get(i).setLocation((int)tetrimino_position.get(i).getX() + p_x, (int)tetrimino_position.get(i).getY() + p_y);
+				 tetrimino_position.get(i).setLocation((int)next_position.get(i).getX() + p_x, (int)next_position.get(i).getY() + p_y);
 			 }
+			 displayTetrimino();
 		 }
 	 }
 	 
@@ -78,7 +85,24 @@ public class PlateauDeJeu {
 	 }
 	 
 	 public void turnTetrimino(){
-		 
+		 int x = (int)reference_position.getX();
+		 int y = (int)reference_position.getY();
+		 if(x>=0 && x<=colonnes && y>=0 && y<=lignes){
+			 tetrimino.turn();
+			 insertTetrimino();
+		 }
+	 }
+	 
+	 public void displayTetrimino(){
+		 for(int i=0; i<tetrimino_position.size(); i++){
+			 TableauTetris[(int)tetrimino_position.get(i).getX()][(int)tetrimino_position.get(i).getY()]="@";
+		 }
+	 }
+	 
+	 public void clearTetrimino(){
+		 for(int i=0; i<tetrimino_position.size(); i++){
+			 TableauTetris[(int)tetrimino_position.get(i).getX()][(int)tetrimino_position.get(i).getY()]="0";
+		 }
 	 }
 
 }

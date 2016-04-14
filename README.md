@@ -4,9 +4,13 @@ Tetris
 Composition du groupe
 --------------
 Chafik CISSE
+
 Clément DALBERGUE
+
 NICOLAS HEC
+
 Classe : 41UFA
+
 
 Contexte
 --------------

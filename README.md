@@ -9,7 +9,7 @@ Clément DALBERGUE
 
 NICOLAS HEC
 
-Classe : 41UFA
+Classe : 4AUFA
 
 
 Contexte
@@ -62,7 +62,8 @@ Une fois qu’une ligne est complète, le score de l’utilisateur augmentera et
  
 Lancement du Tetris
 --------------
-Installation : ./install.sh
+Installation : ./install.sh 
+
 Lancement : ./play.sh
  
 Commandes :

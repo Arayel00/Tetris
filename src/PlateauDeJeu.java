@@ -203,6 +203,17 @@ public class PlateauDeJeu extends JPanel{
 		repaint();
 	 }
 	 
+	 public void descendreTetrimino(){
+		 if(deplaceTetrimino(1, 0)){
+				checkFullLine();
+				if(initTetrimino()){
+					System.out.println("GAME OVER");
+					System.out.println("NEW GAME");
+					resetPlateau();
+				}
+			}
+	 }
+	 
 	 public void paint(Graphics g)
 	 { 
 		super.paint(g);

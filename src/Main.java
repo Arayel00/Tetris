@@ -33,48 +33,14 @@ public class Main implements KeyListener{
 		plateau.addKeyListener(this);
 		plateau.requestFocusInWindow();
 		
-		
-		
-		
-		
 		Horloge a = new Horloge();
 		a.init();
-		int i=0;
-		/*//long startTime = System.nanoTime();
+		
 		while(true){
 			if(a.cycleDone(System.nanoTime())){
-				System.out.println(i++);
+				plateau.descendreTetrimino();
 			}
 		}
-		 /*Timer timer = new Timer();
-		 timer.schedule(System.out.println("a"), 0, 5000);
-		
-		   /*while (line.equalsIgnoreCase("quit") == false) {
-		       line = in.readLine();
-		    
-		       if(line.equals("z")){
-		    	   plateau.turnTetrimino();
-		       }
-				if(line.equals("q")){
-					plateau.deplaceTetrimino(0, -1);	    	   
-						       }
-				if(line.equals("d")){
-					plateau.deplaceTetrimino(0, 1);
-				}
-				if(line.equals("s")){
-					if(plateau.deplaceTetrimino(1, 0)){
-						plateau.checkFullLine();
-						if(plateau.initTetrimino()){
-							System.out.println("GAME OVER");
-							System.out.println("NEW GAME");
-							plateau = new PlateauDeJeu(10, 5);
-						}
-					}
-				}
-				System.out.println(plateau.toString());
-		   }
-
-		   in.close();*/
 	}
 
 	
@@ -94,15 +60,7 @@ public class Main implements KeyListener{
 				plateau.turnTetrimino();
 				break;
 			case KeyEvent.VK_DOWN:
-				System.out.println("a");
-				if(plateau.deplaceTetrimino(1, 0)){
-					plateau.checkFullLine();
-					if(plateau.initTetrimino()){
-						System.out.println("GAME OVER");
-						System.out.println("NEW GAME");
-						plateau.resetPlateau();
-					}
-				}
+				plateau.descendreTetrimino();
 				break;
 		}
 	}

@@ -18,12 +18,12 @@ import javax.swing.JPanel;
 public class Main implements KeyListener{
 	
 	PlateauDeJeu plateau;
-	
+	PlateauDeJeu plateau2;
 	public Main(){
-		plateau = new PlateauDeJeu(10, 5);
+		plateau = new PlateauDeJeu(10, 10);
 		
 		JFrame frame = new JFrame("Tetris");
-		frame.setMinimumSize(new Dimension(640,480));
+		frame.setMinimumSize(new Dimension(1280,1024));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		frame.add(plateau, BorderLayout.CENTER);
@@ -35,7 +35,7 @@ public class Main implements KeyListener{
 		
 		Horloge a = new Horloge();
 		a.init();
-		
+		plateau.resetPlateau();
 		while(true){
 			if(a.cycleDone(System.nanoTime())){
 				plateau.descendreTetrimino();

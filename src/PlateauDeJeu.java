@@ -33,7 +33,6 @@ public class PlateauDeJeu extends JPanel{
 		colonnes = p_colonne;
 		TableauTetris = new String[lignes][colonnes];
 		
-		resetPlateau();
 	}
 	
 	public String toString(){

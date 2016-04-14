@@ -10,9 +10,7 @@ public class Main{
 	
 	public static void main(String[] args) throws IOException{
 		PlateauDeJeu plateau = new PlateauDeJeu(10, 5);
-		Affichage aff = new Affichage(plateau);
-		plateau.insertTetrimino();
-		aff.AffichePlateau();
+		System.out.println(plateau.toString());
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String line = "";
@@ -34,10 +32,12 @@ public class Main{
 						plateau.checkFullLine();
 						if(plateau.initTetrimino()){
 							System.out.println("GAME OVER");
+							System.out.println("NEW GAME");
+							plateau = new PlateauDeJeu(10, 5);
 						}
 					}
 				}
-				aff.AffichePlateau();
+				System.out.println(plateau.toString());
 		   }
 
 		   in.close();

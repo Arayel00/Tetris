@@ -84,6 +84,7 @@ public class PlateauDeJeu{
 			 //le déplacement est vertical ça la donc c'est la fin de la descente du tetrimino
 			 return true;
 		 }
+		 //ce n'est pas la fin de la descente du tetrimino
 		 return false;
 	 }
 	 
@@ -132,6 +133,8 @@ public class PlateauDeJeu{
 	 }
 	 
 	 //initialise un nouveau tetrimino sur la grille
+	 //renvoie ce que renvoie la fonction insertTerimino (pour rappel elle renvoie true si la creation du tetrimino est bloqué
+	 //donc si initTetrimino renvoie true, le jeu est fini
 	 public boolean initTetrimino(){
 		tetrimino_position = new ArrayList<Point2D>();
 		tetrimino = Tetrimino.randomTetrimino();

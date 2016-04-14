@@ -58,16 +58,15 @@ Une fois qu’une ligne est complète, le score de l’utilisateur augmentera et
  
 Lancement du Tetris
 --------------
-
-Pour l’installer : install.sh
-Pour : play.sh
+Installation : ./install.sh
+Lancement : ./play.sh
  
-Commandes pour jouer
+Commandes :
  
-→ : Déplacement à droite
-← : Déplacement à gauche
-↓ : Déplacement vers le bas
-↑ : Rotation de la pièce
+- → : Déplacement à droite
+- ← : Déplacement à gauche
+- ↓ : Déplacement vers le bas
+- ↑ : Rotation de la pièce
 
 
 

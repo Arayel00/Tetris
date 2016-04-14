@@ -33,12 +33,7 @@ public class PlateauDeJeu extends JPanel{
 		colonnes = p_colonne;
 		TableauTetris = new String[lignes][colonnes];
 		
-		for(int i=0; i<lignes; i++){
-			for(int j=0; j<colonnes; j++){
-				TableauTetris[i][j] = VIDE;
-			}
-		}
-		initTetrimino();
+		resetPlateau();
 	}
 	
 	public String toString(){
@@ -195,6 +190,17 @@ public class PlateauDeJeu extends JPanel{
 		 //affiche le tetrimino dans la grille
 		 displayTetrimino();
 		 repaint();
+	 }
+	 
+	 public void resetPlateau(){
+		 for(int i=0; i<lignes; i++){
+				for(int j=0; j<colonnes; j++){
+					TableauTetris[i][j] = VIDE;
+				}
+			}
+			
+		initTetrimino();
+		repaint();
 	 }
 	 
 	 public void paint(Graphics g)

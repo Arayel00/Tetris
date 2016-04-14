@@ -100,7 +100,7 @@ public class Main implements KeyListener{
 					if(plateau.initTetrimino()){
 						System.out.println("GAME OVER");
 						System.out.println("NEW GAME");
-						plateau = new PlateauDeJeu(10, 5);
+						plateau.resetPlateau();
 					}
 				}
 				break;

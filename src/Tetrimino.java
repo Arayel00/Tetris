@@ -1,3 +1,5 @@
+import java.util.Random;
+
 
 public enum Tetrimino {
 
@@ -95,6 +97,15 @@ public enum Tetrimino {
 		taille = p_taille;
 		current_orientation = 0;
 	}
+	
+	//variable pour le random pop du tetrimino
+	private static final Tetrimino VALUES[] = values();
+	private static final int SIZE = VALUES.length;
+	private static final Random RANDOM = new Random();
+
+	public static Tetrimino randomTetrimino()  {
+		return VALUES[RANDOM.nextInt(SIZE)];
+  	}
 	
 	public int getTaille(){
 		return taille;

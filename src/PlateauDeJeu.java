@@ -1,16 +1,23 @@
 import java.awt.Point;
+import java.awt.event.KeyListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class PlateauDeJeu {
+public class PlateauDeJeu{
 
 	int lignes;
 	int colonnes;
+	// la grille
 	String TableauTetris[][];
+	//point de reference pour insérer un tetrimino (inserer un nouveau en haut de la graille ou changer l'orientation)
+	//ce point représente de point haut gache de chaque grille de tetrimino (orientation)
 	Point2D reference_position;
+	//tableau de point: chaque point est une brique du tetrimino. le tableau decrit donc sa position dans la grille
 	ArrayList<Point2D> tetrimino_position;
+	//objet tetrimino utilisé dans la grille
 	Tetrimino tetrimino;
 	
+	//constructeur
 	public PlateauDeJeu(int p_colonne, int p_ligne){
 		lignes = p_ligne;
 		colonnes = p_colonne;
@@ -21,10 +28,7 @@ public class PlateauDeJeu {
 				TableauTetris[i][j] = "0";
 			}
 		}
-		
-		tetrimino_position = new ArrayList<Point2D>();
-		tetrimino = Tetrimino.I;
-		reference_position = new Point(colonnes/2 - tetrimino.getTaille()/2, 0);
+		initTetrimino();
 	}
 	
 	public String toString(){
@@ -38,73 +42,105 @@ public class PlateauDeJeu {
 		 return retour;
 	 }
 	 
-	 public void insertTetrimino(){
+	//insert une orientation de tetrimino, donc appellee quand on on met 
+	//un nouveau au haut de la grille ou quand la piece tourne
+	//return true si la creation de la piece est bloquee (creation ou rotation)
+	 public boolean insertTetrimino(){
 		 int x = (int)reference_position.getX();
 		 int y = (int)reference_position.getY();
-		 clearTetrimino();
-		 tetrimino_position.clear();
+		 ArrayList<Point2D> next_position = new ArrayList<Point2D>();
 		 
 		 for(int i=x; i<x+tetrimino.getTaille(); i++){
 			 for(int j=y; j<y+tetrimino.getTaille(); j++){
 				 if(tetrimino.isBrique(j-y, i-x)){
-					 tetrimino_position.add(new Point(j, i));
+					 next_position.add(new Point(j, i));
 				 }
 			 }
 		 }
-		 displayTetrimino();
+		 if(isFreePosition(next_position)){
+			 updateTetrimino(next_position);
+			 return false;
+		 }else{
+			 return true;
+		 }
 	 }
 	 
-	 public void deplaceTetrimino(int p_x, int p_y){
+	 //deplace le tetrimino
+	 public boolean deplaceTetrimino(int p_x, int p_y){
+		 //creation du tableau contenant les points occupés par la prochaine position du tetrimino
 		 ArrayList<Point2D> next_position = new ArrayList<Point2D>();
 		 
 		 for(int i=0; i<tetrimino_position.size(); i++){
 			 next_position.add(new Point((int)tetrimino_position.get(i).getX()+p_x, (int)tetrimino_position.get(i).getY()+p_y));
 		 }
 		 
-		 System.out.println(tetrimino_position);
-		 System.out.println(next_position);
-		 
+		 //la prochaine position est-elle valide
 		 if(this.isFreePosition(next_position)){
-			 clearTetrimino();
-			 reference_position.setLocation((int)reference_position.getX() + p_x, (int)reference_position.getY() + p_y);
-			 for(int i=0; i<tetrimino_position.size(); i++){
-				 tetrimino_position.get(i).setLocation((int)next_position.get(i).getX() + p_x, (int)next_position.get(i).getY() + p_y);
-			 }
-			 displayTetrimino();
+			 //ajustement du point de reference
+			 reference_position.setLocation((int)reference_position.getX() + p_y, (int)reference_position.getY() + p_x);
+			 updateTetrimino(next_position);
+		//la position n'est pas valide, on vérifie si le déplacement est vertical
+		 }else if((int)tetrimino_position.get(1).getX()<(int)next_position.get(1).getX()){
+			 //le déplacement est vertical ça la donc c'est la fin de la descente du tetrimino
+			 return true;
 		 }
+		 return false;
 	 }
 	 
+	 //verifie la position passée en paramtre (tableau de points) est libre
+	 //renvoi true si la position est libre, false sinon
 	 public boolean isFreePosition(ArrayList<Point2D> position){
 		 for(int i=0; i<position.size(); i++){
 			 Point2D p = position.get(i);
-			 if(!tetrimino_position.contains(p) && (TableauTetris[(int)p.getX()][(int)p.getY()]!="0")){
+			 int x = (int)p.getX();
+			 int y = (int)p.getY();
+			 
+			 //vérifie que chaque point sera dans la grille
+			 if((x<0 || x>lignes-1 || y<0 || y>colonnes-1)){
+				 return false;
+			//vérifie que chaque point est soit un espace libre, soit une partie du tetrimino en déplacement
+			 }else if(!tetrimino_position.contains(p) && (TableauTetris[x][y]!="0")){
 				 return false;
 			 }
 		 }
 		 return true;
 	 }
 	 
-	 public void turnTetrimino(){
+	 //change l'orientation du tetrimino
+	 public boolean turnTetrimino(){
 		 int x = (int)reference_position.getX();
 		 int y = (int)reference_position.getY();
-		 if(x>=0 && x<=colonnes && y>=0 && y<=lignes){
+		 
+		 if(x>=0 && x<=colonnes-tetrimino.getTaille() && y>=0 && y<=lignes-tetrimino.getTaille()){
 			 tetrimino.turn();
-			 insertTetrimino();
+			 return insertTetrimino();
 		 }
+		 return false;
 	 }
 	 
+	 //affiche le tetrimino dans la grille
 	 public void displayTetrimino(){
 		 for(int i=0; i<tetrimino_position.size(); i++){
 			 TableauTetris[(int)tetrimino_position.get(i).getX()][(int)tetrimino_position.get(i).getY()]="@";
 		 }
 	 }
 	 
+	 //efface le tetrimino de la grille
 	 public void clearTetrimino(){
 		 for(int i=0; i<tetrimino_position.size(); i++){
 			 TableauTetris[(int)tetrimino_position.get(i).getX()][(int)tetrimino_position.get(i).getY()]="0";
 		 }
 	 }
+	 
+	 //initialise un nouveau tetrimino sur la grille
+	 public boolean initTetrimino(){
+		tetrimino_position = new ArrayList<Point2D>();
+		tetrimino = Tetrimino.randomTetrimino();
+		reference_position = new Point(colonnes/2 - tetrimino.getTaille()/2, 0);
+		return insertTetrimino();
+	 }
 
+	 //verifie si une ligne est complétée, la vide le cas échant
 	 public void checkFullLine() {
 		 int compteur = 0;
 		 for(int i=0; i<lignes; i++){
@@ -117,8 +153,33 @@ public class PlateauDeJeu {
 				 for(int j=0; j<colonnes; j++){
 					 TableauTetris[i][j] = "0";
 				 }
+				 decaleBrique(i);
+			 }
+			 compteur = 0;
+		 }
+	 }
+	 
+	 // decale vers le bas les briques au dessus de la ligne x
+	 public void decaleBrique(int x){
+		 for(int i=x-1; i>=0; i--){
+			 for(int j=0; j<colonnes; j++){
+				 if(TableauTetris[i][j]=="@"){
+					 TableauTetris[i][j]="0";
+					 TableauTetris[i+1][j]="@";
+				 }
 			 }
 		 }
+	 }
+	 
+	 private void updateTetrimino(ArrayList<Point2D> t){
+		 //efface le tetrimino de la grille
+		 clearTetrimino();
+		 //reset la position du tetrimino
+		 tetrimino_position.clear();
+		 //set la position du tetrimino
+		 tetrimino_position.addAll(t);
+		 //affiche le tetrimino dans la grille
+		 displayTetrimino();
 	 }
 }
 

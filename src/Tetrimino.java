@@ -130,4 +130,12 @@ public enum Tetrimino {
 			current_orientation++;
 		}
 	}
+	
+	public void reverseTurn(){
+		if(current_orientation == 0){
+			current_orientation = 3;
+		}else{
+			current_orientation--;
+		}
+	}
 }

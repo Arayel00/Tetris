@@ -4,6 +4,10 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class PlateauDeJeu{
+	
+	//on évite les magic string
+	static final String PLEIN = "@";
+	static final String VIDE = "O";
 
 	int lignes;
 	int colonnes;
@@ -25,7 +29,7 @@ public class PlateauDeJeu{
 		
 		for(int i=0; i<lignes; i++){
 			for(int j=0; j<colonnes; j++){
-				TableauTetris[i][j] = "0";
+				TableauTetris[i][j] = VIDE;
 			}
 		}
 		initTetrimino();
@@ -100,7 +104,7 @@ public class PlateauDeJeu{
 			 if((x<0 || x>lignes-1 || y<0 || y>colonnes-1)){
 				 return false;
 			//vérifie que chaque point est soit un espace libre, soit une partie du tetrimino en déplacement
-			 }else if(!tetrimino_position.contains(p) && (TableauTetris[x][y]!="0")){
+			 }else if(!tetrimino_position.contains(p) && (TableauTetris[x][y]!=VIDE)){
 				 return false;
 			 }
 		 }
@@ -114,21 +118,23 @@ public class PlateauDeJeu{
 		 
 		 if(x>=0 && x<=colonnes-tetrimino.getTaille() && y>=0 && y<=lignes-tetrimino.getTaille()){
 			 tetrimino.turn();
-			 insertTetrimino();
+			 if(insertTetrimino()){
+				 tetrimino.reverseTurn();
+			 }
 		 }
 	 }
 	 
 	 //affiche le tetrimino dans la grille
 	 public void displayTetrimino(){
 		 for(int i=0; i<tetrimino_position.size(); i++){
-			 TableauTetris[(int)tetrimino_position.get(i).getX()][(int)tetrimino_position.get(i).getY()]="@";
+			 TableauTetris[(int)tetrimino_position.get(i).getX()][(int)tetrimino_position.get(i).getY()]=PLEIN;
 		 }
 	 }
 	 
 	 //efface le tetrimino de la grille
 	 public void clearTetrimino(){
 		 for(int i=0; i<tetrimino_position.size(); i++){
-			 TableauTetris[(int)tetrimino_position.get(i).getX()][(int)tetrimino_position.get(i).getY()]="0";
+			 TableauTetris[(int)tetrimino_position.get(i).getX()][(int)tetrimino_position.get(i).getY()]=VIDE;
 		 }
 	 }
 	 
@@ -147,13 +153,13 @@ public class PlateauDeJeu{
 		 int compteur = 0;
 		 for(int i=0; i<lignes; i++){
 			 for(int j=0; j<colonnes; j++){
-				 if(TableauTetris[i][j] == "@") {
+				 if(TableauTetris[i][j] == PLEIN) {
 					 compteur += 1;
 				 }
 			 }
 			 if(compteur == colonnes){
 				 for(int j=0; j<colonnes; j++){
-					 TableauTetris[i][j] = "0";
+					 TableauTetris[i][j] = VIDE;
 				 }
 				 decaleBrique(i);
 			 }
@@ -165,9 +171,9 @@ public class PlateauDeJeu{
 	 public void decaleBrique(int x){
 		 for(int i=x-1; i>=0; i--){
 			 for(int j=0; j<colonnes; j++){
-				 if(TableauTetris[i][j]=="@"){
-					 TableauTetris[i][j]="0";
-					 TableauTetris[i+1][j]="@";
+				 if(TableauTetris[i][j]==PLEIN){
+					 TableauTetris[i][j]=VIDE;
+					 TableauTetris[i+1][j]=PLEIN;
 				 }
 			 }
 		 }

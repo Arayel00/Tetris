@@ -107,15 +107,14 @@ public class PlateauDeJeu{
 	 }
 	 
 	 //change l'orientation du tetrimino
-	 public boolean turnTetrimino(){
+	 public void turnTetrimino(){
 		 int x = (int)reference_position.getX();
 		 int y = (int)reference_position.getY();
 		 
 		 if(x>=0 && x<=colonnes-tetrimino.getTaille() && y>=0 && y<=lignes-tetrimino.getTaille()){
 			 tetrimino.turn();
-			 return insertTetrimino();
+			 insertTetrimino();
 		 }
-		 return false;
 	 }
 	 
 	 //affiche le tetrimino dans la grille

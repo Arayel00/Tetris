@@ -1,13 +1,19 @@
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class PlateauDeJeu{
+import javax.swing.JPanel;
+
+public class PlateauDeJeu extends JPanel{
 	
 	//on évite les magic string
 	static final String PLEIN = "@";
 	static final String VIDE = "O";
+	
+	static final int rectSize = 50;
 
 	int lignes;
 	int colonnes;
@@ -188,7 +194,41 @@ public class PlateauDeJeu{
 		 tetrimino_position.addAll(t);
 		 //affiche le tetrimino dans la grille
 		 displayTetrimino();
+		 repaint();
 	 }
+	 
+	 public void paint(Graphics g)
+	 { 
+		super.paint(g);
+				
+		int posX=0;
+		int posY=0;
+		
+		for (int i=0; i<lignes; i++)
+		{
+			for (int j=0; j<colonnes; j++)
+			{
+				switch(TableauTetris[i][j])
+				{
+					case PLEIN:
+						g.setColor(new Color(156, 93, 82));
+						g.fillRect(posX,posY, rectSize, rectSize);
+						break;
+						
+					case VIDE: 
+						g.setColor(Color.GRAY);
+						g.fillRect(posX,posY, rectSize, rectSize);
+						break;
+				}
+				
+				g.setColor(Color.BLACK);
+				g.drawRect(posX,posY, rectSize,rectSize);
+				
+				posX+= rectSize;
+			}
+			posY+=rectSize;
+			posX=0;
+		}
+	}
 }
-
 
